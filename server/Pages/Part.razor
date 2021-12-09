@@ -1,0 +1,54 @@
+﻿@page "/part"
+@layout MainLayout
+@inherits RadzenDb.Pages.PartComponent
+
+@using Radzen
+@using Radzen.Blazor
+@using RadzenDb.Models.TpcH
+@using Microsoft.AspNetCore.Identity;
+@using RadzenDb.Models
+@using Microsoft.AspNetCore.Authorization
+@attribute [Authorize]
+
+
+@inject Microsoft.Extensions.Localization.IStringLocalizer<Part> L
+<RadzenContent Container="main">
+  <ChildContent>
+    <RadzenHeading Size="H1" Text=@P.Title>
+    </RadzenHeading>
+    <div class="row">
+      <div class="col-md-12">
+        <RadzenButton Icon="add_circle_outline" style="margin-bottom: 10px" Text=@Common.add Click="@Button0Click">
+        </RadzenButton>
+        <RadzenDataGrid @ref="grid0" AllowFiltering="true" FilterMode="Radzen.FilterMode.Advanced" AllowPaging="true" AllowSorting="true" Data="@getPartsResult" TItem="RadzenDb.Models.TpcH.Part" RowSelect="@Grid0RowSelect">
+          <Columns>
+            <RadzenDataGridColumn TItem="RadzenDb.Models.TpcH.Part" Property="p_partkey" Title=@P.id>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="RadzenDb.Models.TpcH.Part" Property="p_name" Title=@P.name>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="RadzenDb.Models.TpcH.Part" Property="p_mfgr" Title=@P.quality>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="RadzenDb.Models.TpcH.Part" Property="p_brand" Title=@P.brand>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="RadzenDb.Models.TpcH.Part" Property="p_type" Title=@P.type>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="RadzenDb.Models.TpcH.Part" Property="p_size" Title=@P.size>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="RadzenDb.Models.TpcH.Part" Property="p_container" Title=@P.container>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="RadzenDb.Models.TpcH.Part" Property="p_retailprice" Title=@P.price>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="RadzenDb.Models.TpcH.Part" Property="p_comment" Title=@P.comment>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="RadzenDb.Models.TpcH.Part" Filterable="false" Sortable="false" Width="70px" TextAlign="TextAlign.Center">
+              <Template Context="radzenDbModelsTpcHPart">
+                <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="close" Size="ButtonSize.Small" Click="@((args) =>GridDeleteButtonClick(args, radzenDbModelsTpcHPart))" @onclick:stopPropagation="true">
+                </RadzenButton>
+              </Template>
+            </RadzenDataGridColumn>
+          </Columns>
+        </RadzenDataGrid>
+      </div>
+    </div>
+  </ChildContent>
+</RadzenContent>

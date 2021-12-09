@@ -1,0 +1,118 @@
+﻿@page "/add-customer"
+@layout MainLayout
+@inherits RadzenDb.Pages.AddCustomerComponent
+
+@using Radzen
+@using Radzen.Blazor
+@using RadzenDb.Models.TpcH
+@using Microsoft.AspNetCore.Identity;
+@using RadzenDb.Models
+@using Microsoft.AspNetCore.Authorization
+@attribute [Authorize]
+
+
+@inject Microsoft.Extensions.Localization.IStringLocalizer<AddCustomer> L
+<RadzenContent Container="main">
+  <ChildContent>
+    <div class="row">
+      <div class="col-md-12">
+        <RadzenTemplateForm Data="@customer" TItem="RadzenDb.Models.TpcH.Customer" Visible="@(customer != null)" Submit="@Form0Submit">
+          <ChildContent>
+            <div style="margin-bottom: 1rem" class="row">
+              <div class="col-md-3">
+                <RadzenLabel Component="c_custkey" style="width: 100%" Text=@Cust.id>
+                </RadzenLabel>
+              </div>
+              <div class="col-md-9">
+                <RadzenNumeric style="display: block; width: 100%" @bind-Value="@(customer.c_custkey)" Name="C_custkey">
+                </RadzenNumeric>
+                <RadzenRequiredValidator Component="C_custkey" style="position: absolute" Text=@Cust.id_err>
+                </RadzenRequiredValidator>
+              </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+              <div class="col-md-3">
+                <RadzenLabel Component="c_nationkey" style="width: 100%" Text=@Cust.nation>
+                </RadzenLabel>
+              </div>
+              <div class="col-md-9">
+                <RadzenDropDownDataGrid Data="@(getNationsForc_nationkeyResult)" Placeholder="Choose Nation" ShowSearch="false" style="display: block; width: 100%" TextProperty="n_name" @bind-Value="@(customer.c_nationkey)" ValueProperty="n_nationkey" Name="C_nationkey">
+                </RadzenDropDownDataGrid>
+                <RadzenRequiredValidator Component="C_nationkey" DefaultValue="0" style="position: absolute" Text=@Nat.id_err>
+                </RadzenRequiredValidator>
+              </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+              <div class="col-md-3">
+                <RadzenLabel Component="c_name" style="width: 100%" Text=@Cust.name>
+                </RadzenLabel>
+              </div>
+              <div class="col-md-9">
+                <RadzenTextBox MaxLength="25" style="width: 100%" @bind-Value="@(customer.c_name)" Name="C_name">
+                </RadzenTextBox>
+              </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+              <div class="col-md-3">
+                <RadzenLabel Component="c_address" style="width: 100%" Text=@Cust.addr>
+                </RadzenLabel>
+              </div>
+              <div class="col-md-9">
+                <RadzenTextBox MaxLength="40" style="width: 100%" @bind-Value="@(customer.c_address)" Name="C_address">
+                </RadzenTextBox>
+              </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+              <div class="col-md-3">
+                <RadzenLabel Component="c_phone" style="width: 100%" Text=@Cust.phone>
+                </RadzenLabel>
+              </div>
+              <div class="col-md-9">
+                <RadzenTextBox MaxLength="15" style="width: 100%" @bind-Value="@(customer.c_phone)" Name="C_phone">
+                </RadzenTextBox>
+              </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+              <div class="col-md-3">
+                <RadzenLabel Component="c_acctbal" style="width: 100%" Text=@Cust.acc>
+                </RadzenLabel>
+              </div>
+              <div class="col-md-9">
+                <RadzenNumeric style="width: 100%" @bind-Value="@(customer.c_acctbal)" Name="C_acctbal">
+                </RadzenNumeric>
+              </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+              <div class="col-md-3">
+                <RadzenLabel Component="c_mktsegment" style="width: 100%" Text=@Cust.mkn>
+                </RadzenLabel>
+              </div>
+              <div class="col-md-9">
+                <RadzenTextBox MaxLength="10" style="width: 100%" @bind-Value="@(customer.c_mktsegment)" Name="C_mktsegment">
+                </RadzenTextBox>
+              </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+              <div class="col-md-3">
+                <RadzenLabel Component="c_comment" style="width: 100%" Text=@Cust.comment>
+                </RadzenLabel>
+              </div>
+              <div class="col-md-9">
+                <RadzenTextBox MaxLength="117" style="width: 100%" @bind-Value="@(customer.c_comment)" Name="C_comment">
+                </RadzenTextBox>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col offset-sm-3">
+                <RadzenButton ButtonStyle="ButtonStyle.Primary" ButtonType="ButtonType.Submit" Icon="save" Text=@Common.save>
+                </RadzenButton>
+                <RadzenButton ButtonStyle="ButtonStyle.Light" style="margin-left: 1rem" Text=@Common.cancel Click="@Button2Click">
+                </RadzenButton>
+              </div>
+            </div>
+          </ChildContent>
+        </RadzenTemplateForm>
+      </div>
+    </div>
+  </ChildContent>
+</RadzenContent>

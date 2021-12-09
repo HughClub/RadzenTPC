@@ -1,0 +1,88 @@
+﻿@page "/add-partsupp"
+@layout MainLayout
+@inherits RadzenDb.Pages.AddPartsuppComponent
+
+@using Radzen
+@using Radzen.Blazor
+@using RadzenDb.Models.TpcH
+@using Microsoft.AspNetCore.Identity;
+@using RadzenDb.Models
+@using Microsoft.AspNetCore.Authorization
+@attribute [Authorize]
+
+
+@inject Microsoft.Extensions.Localization.IStringLocalizer<AddPartsupp> L
+<RadzenContent Container="main">
+  <ChildContent>
+    <div class="row">
+      <div class="col-md-12">
+        <RadzenTemplateForm Data="@partsupp" Visible="@(partsupp != null)" TItem="RadzenDb.Models.TpcH.Partsupp" Submit="@Form0Submit">
+          <ChildContent>
+            <div style="margin-bottom: 1rem" class="row">
+              <div class="col-md-3">
+                <RadzenLabel Text=@P.name Component="ps_partkey" style="width: 100%">
+                </RadzenLabel>
+              </div>
+              <div class="col-md-9">
+                <RadzenDropDownDataGrid Data="@(getPartsForps_partkeyResult)" TextProperty="p_name" ValueProperty="p_partkey" Placeholder="Choose Part" ShowSearch="false" style="display: block; width: 100%" @bind-Value="@(partsupp.ps_partkey)" Name="Ps_partkey">
+                </RadzenDropDownDataGrid>
+                <RadzenRequiredValidator Component="Ps_partkey" Text=@P.id_err style="position: absolute" DefaultValue="0">
+                </RadzenRequiredValidator>
+              </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+              <div class="col-md-3">
+                <RadzenLabel Text=@Supp.name Component="ps_suppkey" style="width: 100%">
+                </RadzenLabel>
+              </div>
+              <div class="col-md-9">
+                <RadzenDropDownDataGrid Data="@(getSuppliersForps_suppkeyResult)" TextProperty="s_name" ValueProperty="s_suppkey" Placeholder="Choose Supplier" ShowSearch="false" style="display: block; width: 100%" @bind-Value="@(partsupp.ps_suppkey)" Name="Ps_suppkey">
+                </RadzenDropDownDataGrid>
+                <RadzenRequiredValidator Component="Ps_suppkey" Text="ps_suppkey is required" style="position: absolute" DefaultValue="0">
+                </RadzenRequiredValidator>
+              </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+              <div class="col-md-3">
+                <RadzenLabel Text=@PS.quantity Component="ps_availqty" style="width: 100%">
+                </RadzenLabel>
+              </div>
+              <div class="col-md-9">
+                <RadzenNumeric style="width: 100%" @bind-Value="@(partsupp.ps_availqty)" Name="Ps_availqty">
+                </RadzenNumeric>
+              </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+              <div class="col-md-3">
+                <RadzenLabel Text=@PS.price Component="ps_supplycost" style="width: 100%">
+                </RadzenLabel>
+              </div>
+              <div class="col-md-9">
+                <RadzenNumeric style="width: 100%" @bind-Value="@(partsupp.ps_supplycost)" Name="Ps_supplycost">
+                </RadzenNumeric>
+              </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+              <div class="col-md-3">
+                <RadzenLabel Text=@PS.comment Component="ps_comment" style="width: 100%">
+                </RadzenLabel>
+              </div>
+              <div class="col-md-9">
+                <RadzenTextBox MaxLength="199" style="width: 100%" @bind-Value="@(partsupp.ps_comment)" Name="Ps_comment">
+                </RadzenTextBox>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col offset-sm-3">
+                <RadzenButton ButtonType="ButtonType.Submit" Icon="save" Text=@Common.save ButtonStyle="ButtonStyle.Primary">
+                </RadzenButton>
+                <RadzenButton ButtonStyle="ButtonStyle.Light" style="margin-left: 1rem" Text=@Common.cancel Click="@Button2Click">
+                </RadzenButton>
+              </div>
+            </div>
+          </ChildContent>
+        </RadzenTemplateForm>
+      </div>
+    </div>
+  </ChildContent>
+</RadzenContent>

@@ -1,0 +1,78 @@
+﻿@page "/edit-nation/{n_nationkey}"
+@layout MainLayout
+@inherits RadzenDb.Pages.EditNationComponent
+
+@using Radzen
+@using Radzen.Blazor
+@using RadzenDb.Models.TpcH
+@using Microsoft.AspNetCore.Identity;
+@using RadzenDb.Models
+@using Microsoft.AspNetCore.Authorization
+@attribute [Authorize]
+
+
+@inject Microsoft.Extensions.Localization.IStringLocalizer<EditNation> L
+<RadzenContent Container="main">
+  <ChildContent>
+    <div class="row">
+      <div class="col-md-12">
+        <RadzenTemplateForm TItem="RadzenDb.Models.TpcH.Nation" Data="@nation" Visible="@(nation != null)" Submit="@Form0Submit">
+          <ChildContent>
+            <div style="margin-bottom: 1rem" class="row">
+              <div class="col-md-3">
+                <RadzenLabel Text=@Nat.id Component="n_nationkey" style="width: 100%">
+                </RadzenLabel>
+              </div>
+              <div class="col-md-9">
+                <RadzenNumeric style="display: block; width: 100%" @bind-Value="@(nation.n_nationkey)" Name="N_nationkey">
+                </RadzenNumeric>
+                <RadzenRequiredValidator Component="N_nationkey" Text=@Nat.id_err style="position: absolute">
+                </RadzenRequiredValidator>
+              </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+              <div class="col-md-3">
+                <RadzenLabel Text=@Reg.name Component="n_regionkey" style="width: 100%">
+                </RadzenLabel>
+              </div>
+              <div class="col-md-9">
+                <RadzenDropDownDataGrid Data="@(getRegionsForn_regionkeyResult)" TextProperty="r_name" ValueProperty="r_regionkey" Placeholder="Choose Region" ShowSearch="false" style="display: block; width: 100%" @bind-Value="@(nation.n_regionkey)" Name="N_regionkey">
+                </RadzenDropDownDataGrid>
+                <RadzenRequiredValidator Component="N_regionkey" Text=@Reg.id_err style="position: absolute" DefaultValue="0">
+                </RadzenRequiredValidator>
+              </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+              <div class="col-md-3">
+                <RadzenLabel Text=@Nat.name Component="n_name" style="width: 100%">
+                </RadzenLabel>
+              </div>
+              <div class="col-md-9">
+                <RadzenTextBox MaxLength="25" style="width: 100%" @bind-Value="@(nation.n_name)" Name="N_name">
+                </RadzenTextBox>
+              </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+              <div class="col-md-3">
+                <RadzenLabel Text=@Nat.comment Component="n_comment" style="width: 100%">
+                </RadzenLabel>
+              </div>
+              <div class="col-md-9">
+                <RadzenTextBox MaxLength="152" style="width: 100%" @bind-Value="@(nation.n_comment)" Name="N_comment">
+                </RadzenTextBox>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col offset-sm-3">
+                <RadzenButton ButtonType="ButtonType.Submit" Icon="save" Text=@Common.save ButtonStyle="ButtonStyle.Primary">
+                </RadzenButton>
+                <RadzenButton ButtonStyle="ButtonStyle.Light" style="margin-left: 1rem" Text=@Common.cancel Click="@Button2Click">
+                </RadzenButton>
+              </div>
+            </div>
+          </ChildContent>
+        </RadzenTemplateForm>
+      </div>
+    </div>
+  </ChildContent>
+</RadzenContent>

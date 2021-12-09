@@ -1,0 +1,42 @@
+﻿@page "/region"
+@layout MainLayout
+@inherits RadzenDb.Pages.RegionComponent
+
+@using Radzen
+@using Radzen.Blazor
+@using RadzenDb.Models.TpcH
+@using Microsoft.AspNetCore.Identity;
+@using RadzenDb.Models
+@using Microsoft.AspNetCore.Authorization
+@attribute [Authorize]
+
+
+@inject Microsoft.Extensions.Localization.IStringLocalizer<Region> L
+<RadzenContent Container="main">
+  <ChildContent>
+    <RadzenHeading Size="H1" Text=@Reg.Title>
+    </RadzenHeading>
+    <div class="row">
+      <div class="col-md-12">
+        <RadzenButton Icon="add_circle_outline" style="margin-bottom: 10px" Text=@Common.add Click="@Button0Click">
+        </RadzenButton>
+        <RadzenDataGrid @ref="grid0" AllowFiltering="true" FilterMode="Radzen.FilterMode.Advanced" AllowPaging="true" AllowSorting="true" Data="@getRegionsResult" TItem="RadzenDb.Models.TpcH.Region" RowSelect="@Grid0RowSelect">
+          <Columns>
+            <RadzenDataGridColumn TItem="RadzenDb.Models.TpcH.Region" Property="r_regionkey" Title=@Reg.id>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="RadzenDb.Models.TpcH.Region" Property="r_name" Title=@Reg.name>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="RadzenDb.Models.TpcH.Region" Property="r_comment" Title=@Reg.comment>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="RadzenDb.Models.TpcH.Region" Filterable="false" Sortable="false" Width="70px" TextAlign="TextAlign.Center">
+              <Template Context="radzenDbModelsTpcHRegion">
+                <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="close" Size="ButtonSize.Small" Click="@((args) =>GridDeleteButtonClick(args, radzenDbModelsTpcHRegion))" @onclick:stopPropagation="true">
+                </RadzenButton>
+              </Template>
+            </RadzenDataGridColumn>
+          </Columns>
+        </RadzenDataGrid>
+      </div>
+    </div>
+  </ChildContent>
+</RadzenContent>

@@ -1,0 +1,47 @@
+﻿@page "/nation"
+@layout MainLayout
+@inherits RadzenDb.Pages.NationComponent
+
+@using Radzen
+@using Radzen.Blazor
+@using RadzenDb.Models.TpcH
+@using Microsoft.AspNetCore.Identity;
+@using RadzenDb.Models
+@using Microsoft.AspNetCore.Authorization
+@attribute [Authorize]
+
+
+@inject Microsoft.Extensions.Localization.IStringLocalizer<Nation> L
+<RadzenContent Container="main">
+  <ChildContent>
+    <RadzenHeading Size="H1" Text=@Nat.Title>
+    </RadzenHeading>
+    <div class="row">
+      <div class="col-md-12">
+        <RadzenButton Icon="add_circle_outline" style="margin-bottom: 10px" Text=@Common.add Click="@Button0Click">
+        </RadzenButton>
+        <RadzenDataGrid @ref="grid0" AllowFiltering="true" FilterMode="Radzen.FilterMode.Advanced" AllowPaging="true" AllowSorting="true" Data="@getNationsResult" TItem="RadzenDb.Models.TpcH.Nation" RowSelect="@Grid0RowSelect">
+          <Columns>
+            <RadzenDataGridColumn TItem="RadzenDb.Models.TpcH.Nation" Property="n_nationkey" Title=@Nat.id>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="RadzenDb.Models.TpcH.Nation" Property="n_regionkey" SortProperty="Region.r_name" GroupProperty="Region.r_name" FilterProperty="Region.r_name" Title=@Reg.name>
+              <Template Context="data">
+              @(data.Region?.r_name)
+              </Template>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="RadzenDb.Models.TpcH.Nation" Property="n_name" Title=@Nat.name>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="RadzenDb.Models.TpcH.Nation" Property="n_comment" Title=@Nat.comment>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="RadzenDb.Models.TpcH.Nation" Filterable="false" Sortable="false" Width="70px" TextAlign="TextAlign.Center">
+              <Template Context="radzenDbModelsTpcHNation">
+                <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="close" Size="ButtonSize.Small" Click="@((args) =>GridDeleteButtonClick(args, radzenDbModelsTpcHNation))" @onclick:stopPropagation="true">
+                </RadzenButton>
+              </Template>
+            </RadzenDataGridColumn>
+          </Columns>
+        </RadzenDataGrid>
+      </div>
+    </div>
+  </ChildContent>
+</RadzenContent>

@@ -1,0 +1,129 @@
+﻿@page "/add-orders"
+@layout MainLayout
+@inherits RadzenDb.Pages.AddOrdersComponent
+
+@using Radzen
+@using Radzen.Blazor
+@using RadzenDb.Models.TpcH
+@using Microsoft.AspNetCore.Identity;
+@using RadzenDb.Models
+@using Microsoft.AspNetCore.Authorization
+@attribute [Authorize]
+
+
+@inject Microsoft.Extensions.Localization.IStringLocalizer<AddOrders> L
+<RadzenContent Container="main">
+  <ChildContent>
+    <div class="row">
+      <div class="col-md-12">
+        <RadzenTemplateForm Data="@order" Visible="@(order != null)" TItem="RadzenDb.Models.TpcH.Order" Submit="@Form0Submit">
+          <ChildContent>
+            <div style="margin-bottom: 1rem" class="row">
+              <div class="col-md-3">
+                <RadzenLabel Text=@Ord.id Component="o_orderkey" style="width: 100%">
+                </RadzenLabel>
+              </div>
+              <div class="col-md-9">
+                <RadzenNumeric style="display: block; width: 100%" @bind-Value="@(order.o_orderkey)" Name="O_orderkey">
+                </RadzenNumeric>
+                <RadzenRequiredValidator Component="O_orderkey" Text=@Ord.id_err style="position: absolute">
+                </RadzenRequiredValidator>
+              </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+              <div class="col-md-3">
+                <RadzenLabel Text=@Cust.name Component="o_custkey" style="width: 100%">
+                </RadzenLabel>
+              </div>
+              <div class="col-md-9">
+                <RadzenDropDownDataGrid Data="@(getCustomersForo_custkeyResult)" TextProperty="c_name" ValueProperty="c_custkey" Placeholder="Choose Customer" ShowSearch="false" style="display: block; width: 100%" @bind-Value="@(order.o_custkey)" Name="O_custkey">
+                </RadzenDropDownDataGrid>
+                <RadzenRequiredValidator Component="O_custkey" Text=@Cust.id_err style="position: absolute" DefaultValue="0">
+                </RadzenRequiredValidator>
+              </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+              <div class="col-md-3">
+                <RadzenLabel Text=@Ord.status Component="o_orderstatus" style="width: 100%">
+                </RadzenLabel>
+              </div>
+              <div class="col-md-9">
+                <RadzenTextBox MaxLength="1" style="width: 100%" @bind-Value="@(order.o_orderstatus)" Name="O_orderstatus">
+                </RadzenTextBox>
+              </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+              <div class="col-md-3">
+                <RadzenLabel Text=@Ord.price Component="o_totalprice" style="width: 100%">
+                </RadzenLabel>
+              </div>
+              <div class="col-md-9">
+                <RadzenNumeric style="width: 100%" @bind-Value="@(order.o_totalprice)" Name="O_totalprice">
+                </RadzenNumeric>
+              </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+              <div class="col-md-3">
+                <RadzenLabel Text=@Ord.date Component="o_orderdate" style="width: 100%">
+                </RadzenLabel>
+              </div>
+              <div class="col-md-9">
+                <RadzenDatePicker DateFormat="yyyy/MM/dd" style="width: 100%" @bind-Value="@(order.o_orderdate)" Name="O_orderdate">
+                </RadzenDatePicker>
+              </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+              <div class="col-md-3">
+                <RadzenLabel Text=@Ord.ord_prior Component="o_orderpriority" style="width: 100%">
+                </RadzenLabel>
+              </div>
+              
+              <div class="col-md-9">
+                <RadzenDropDown AllowClear="true" TValue="string" AllowVirtualization="true" Style="display: block; width: 100%" 
+                                AllowFiltering="true" Data=@Ord.DefaultOrderPriority @bind-Value="@(order.o_orderpriority)"/>
+              </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+              <div class="col-md-3">
+                <RadzenLabel Text=@Ord.clerk Component="o_clerk" style="width: 100%">
+                </RadzenLabel>
+              </div>
+              <div class="col-md-9">
+                <RadzenTextBox MaxLength="15" style="width: 100%" @bind-Value="@(order.o_clerk)" Name="O_clerk">
+                </RadzenTextBox>
+              </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+              <div class="col-md-3">
+                <RadzenLabel Text=@Ord.trans_prior Component="o_shippriority" style="width: 100%">
+                </RadzenLabel>
+              </div>
+              <div class="col-md-9">
+                <RadzenNumeric style="width: 100%" @bind-Value="@(order.o_shippriority)" Name="O_shippriority">
+                </RadzenNumeric>
+              </div>
+            </div>
+            <div style="margin-bottom: 1rem" class="row">
+              <div class="col-md-3">
+                <RadzenLabel Text=@Ord.comment Component="o_comment" style="width: 100%">
+                </RadzenLabel>
+              </div>
+              <div class="col-md-9">
+                <RadzenTextBox MaxLength="79" style="width: 100%" @bind-Value="@(order.o_comment)" Name="O_comment">
+                </RadzenTextBox>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col offset-sm-3">
+                <RadzenButton ButtonType="ButtonType.Submit" Icon="save" Text=@Common.save ButtonStyle="ButtonStyle.Primary">
+                </RadzenButton>
+                <RadzenButton ButtonStyle="ButtonStyle.Light" style="margin-left: 1rem" Text=@Common.cancel Click="@Button2Click">
+                </RadzenButton>
+              </div>
+            </div>
+          </ChildContent>
+        </RadzenTemplateForm>
+      </div>
+    </div>
+  </ChildContent>
+</RadzenContent>

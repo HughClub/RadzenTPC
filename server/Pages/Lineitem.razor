@@ -1,0 +1,74 @@
+﻿@page "/lineitem"
+@layout MainLayout
+@inherits RadzenDb.Pages.LineitemComponent
+
+@using Radzen
+@using Radzen.Blazor
+@using RadzenDb.Models.TpcH
+@using Microsoft.AspNetCore.Identity;
+@using RadzenDb.Models
+@using Microsoft.AspNetCore.Authorization
+@attribute [Authorize]
+
+
+@inject Microsoft.Extensions.Localization.IStringLocalizer<Lineitem> L
+<RadzenContent Container="main">
+  <ChildContent>
+    <RadzenHeading Size="H1" Text=@LI.Title>
+    </RadzenHeading>
+    <div class="row">
+      <div class="col-md-12">
+        <RadzenButton Icon="add_circle_outline" style="margin-bottom: 10px" Text=@Common.add Click="@Button0Click">
+        </RadzenButton>
+        <RadzenDataGrid @ref="grid0" AllowFiltering="true" FilterMode="Radzen.FilterMode.Advanced" AllowPaging="true" AllowSorting="true" Data="@getLineitemsResult" TItem="RadzenDb.Models.TpcH.Lineitem" RowSelect="@Grid0RowSelect">
+          <Columns>
+            <RadzenDataGridColumn TItem="RadzenDb.Models.TpcH.Lineitem" Property="l_orderkey" SortProperty="Order.o_orderstatus" GroupProperty="Order.o_orderstatus" FilterProperty="Order.o_orderstatus" Title=@Ord.name>
+              <Template Context="data">
+              @(data.Order?.o_orderstatus)
+              </Template>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="RadzenDb.Models.TpcH.Lineitem" Property="l_linenumber" Title=@LI.lid>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="RadzenDb.Models.TpcH.Lineitem" Property="l_partkey" SortProperty="Partsupp.ps_comment" GroupProperty="Partsupp.ps_comment" FilterProperty="Partsupp.ps_comment" Title=@LI.pid>
+              <Template Context="data">
+              @(data.Partsupp?.ps_comment)
+              </Template>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="RadzenDb.Models.TpcH.Lineitem" Property="l_suppkey" Title=@LI.sid>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="RadzenDb.Models.TpcH.Lineitem" Property="l_quantity" Title=@LI.quantity>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="RadzenDb.Models.TpcH.Lineitem" Property="l_extendedprice" Title=@LI.price>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="RadzenDb.Models.TpcH.Lineitem" Property="l_discount" Title=@LI.discount>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="RadzenDb.Models.TpcH.Lineitem" Property="l_tax" Title=@LI.tax>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="RadzenDb.Models.TpcH.Lineitem" Property="l_returnflag" Title=@LI.retflag>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="RadzenDb.Models.TpcH.Lineitem" Property="l_linestatus" Title=@LI.status>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="RadzenDb.Models.TpcH.Lineitem" Property="l_shipdate" FormatString="{0:yyyy/MM/dd}" Title=@LI.trans_date>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="RadzenDb.Models.TpcH.Lineitem" Property="l_commitdate" FormatString="{0:yyyy/MM/dd}" Title=@LI.commit_date>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="RadzenDb.Models.TpcH.Lineitem" Property="l_receiptdate" FormatString="{0:yyyy/MM/dd}" Title=@LI.receipt_date>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="RadzenDb.Models.TpcH.Lineitem" Property="l_shipinstruct" Title=@LI.trans_depart>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="RadzenDb.Models.TpcH.Lineitem" Property="l_shipmode" Title=@LI.trans_mode>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="RadzenDb.Models.TpcH.Lineitem" Property="l_comment" Title=@LI.comment>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="RadzenDb.Models.TpcH.Lineitem" Filterable="false" Sortable="false" Width="70px" TextAlign="TextAlign.Center">
+              <Template Context="radzenDbModelsTpcHLineitem">
+                <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="close" Size="ButtonSize.Small" Click="@((args) =>GridDeleteButtonClick(args, radzenDbModelsTpcHLineitem))" @onclick:stopPropagation="true">
+                </RadzenButton>
+              </Template>
+            </RadzenDataGridColumn>
+          </Columns>
+        </RadzenDataGrid>
+      </div>
+    </div>
+  </ChildContent>
+</RadzenContent>

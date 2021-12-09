@@ -1,0 +1,6 @@
+.env
+.settings
+meta
+*/appsettings.json
+server/bin
+server/obj

@@ -1,0 +1,56 @@
+﻿@page "/"
+@page "/customer"
+@layout MainLayout
+@inherits RadzenDb.Pages.CustomerComponent
+
+@using Radzen
+@using Radzen.Blazor
+@using RadzenDb.Models.TpcH
+@using Microsoft.AspNetCore.Identity;
+@using RadzenDb.Models
+@using Microsoft.AspNetCore.Authorization
+@attribute [Authorize]
+
+
+@inject Microsoft.Extensions.Localization.IStringLocalizer<Customer> L
+<RadzenContent Container="main">
+  <ChildContent>
+    <RadzenHeading Size="H1" Text=@Cust.Title>
+    </RadzenHeading>
+    <div class="row">
+      <div class="col-md-12">
+        <RadzenButton Icon="add_circle_outline" style="margin-bottom: 10px" Text=@Common.add Click="@Button0Click">
+        </RadzenButton>
+        <RadzenDataGrid @ref="grid0" AllowFiltering="true" FilterMode="Radzen.FilterMode.Advanced" AllowPaging="true" AllowSorting="true" Data="@getCustomersResult" TItem="RadzenDb.Models.TpcH.Customer" RowSelect="@Grid0RowSelect">
+          <Columns>
+            <RadzenDataGridColumn TItem="RadzenDb.Models.TpcH.Customer" Property="c_custkey" Title=@Cust.id>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="RadzenDb.Models.TpcH.Customer" Property="c_nationkey" SortProperty="Nation.n_name" GroupProperty="Nation.n_name" FilterProperty="Nation.n_name" Title=@Cust.nation>
+              <Template Context="data">
+              @(data.Nation?.n_name)
+              </Template>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="RadzenDb.Models.TpcH.Customer" Property="c_name" Title=@Cust.name>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="RadzenDb.Models.TpcH.Customer" Property="c_address" Title=@Cust.addr>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="RadzenDb.Models.TpcH.Customer" Property="c_phone" Title=@Cust.phone>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="RadzenDb.Models.TpcH.Customer" Property="c_acctbal" Title=@Cust.acc>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="RadzenDb.Models.TpcH.Customer" Property="c_mktsegment" Title=@Cust.mkn>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="RadzenDb.Models.TpcH.Customer" Property="c_comment" Title=@Cust.comment>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="RadzenDb.Models.TpcH.Customer" Filterable="false" Sortable="false" Width="70px" TextAlign="TextAlign.Center">
+              <Template Context="radzenDbModelsTpcHCustomer">
+                <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="close" Size="ButtonSize.Small" Click="@((args) =>GridDeleteButtonClick(args, radzenDbModelsTpcHCustomer))" @onclick:stopPropagation="true">
+                </RadzenButton>
+              </Template>
+            </RadzenDataGridColumn>
+          </Columns>
+        </RadzenDataGrid>
+      </div>
+    </div>
+  </ChildContent>
+</RadzenContent>
